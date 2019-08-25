@@ -18,7 +18,7 @@ class GameView: UIView {
 	init() {
 		super.init(frame: CGRect.zero)
 		
-		self.backgroundColor = #colorLiteral(red: 0.07, green: 0.12, blue: 0.27, alpha: 1.00)
+		self.backgroundColor = #colorLiteral(red: 0.06, green: 0.11, blue: 0.16, alpha: 1.00)
 		
 		boxContainer.translatesAutoresizingMaskIntoConstraints = false
 		agentBox.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +33,7 @@ class GameView: UIView {
 			// Box Container
 			NSLayoutConstraint(item: boxContainer, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.3, constant: 0),
 			NSLayoutConstraint(item: boxContainer, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0),
-			NSLayoutConstraint(item: boxContainer, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 14)
+			NSLayoutConstraint(item: boxContainer, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: -30)
 		
 		])
 		

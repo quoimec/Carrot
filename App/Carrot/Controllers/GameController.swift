@@ -204,7 +204,7 @@ extension GameController {
 					safe.view.layoutIfNeeded()
 				}, completion: { [weak self] animated in
 					guard let safe = self else { return }
-					safe.faceModel.startrr()
+					safe.faceModel.start()
 				})
 				
 			}

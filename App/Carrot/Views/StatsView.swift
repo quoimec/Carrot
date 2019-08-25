@@ -95,7 +95,7 @@ class StatsGraph: UIView, UIGestureRecognizerDelegate {
 		
 		let arrayWidths: Array<CGFloat> = zip(
 			[Int](repeatElement(baseWidth, count: passedData.count)),
-			([Int](repeatElement(1, count: moduloCount)) + [Int](repeatElement(0, count: moduloCount)))
+			([Int](repeatElement(1, count: moduloCount)) + [Int](repeatElement(0, count: passedData.count - moduloCount)))
 		).map({ CGFloat($0 + $1) }).shuffled()
 		
 		for (eachIndex, eachEmotion) in passedData.keys.sorted().enumerated() {
