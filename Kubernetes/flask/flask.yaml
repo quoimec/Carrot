@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: flask-deploy
+    labels:
+        app: flask
+spec:
+    replicas: 1
+    selector:
+        matchLabels: 
+            app: flask
+    template:
+        metadata:
+            labels:
+                app: flask
+        spec:
+            containers:
+            -   name: flask-container
+                image: remischacher/carrot-flask
+                ports:
+                -   containerPort: 80
+                
+---
+
+# Note: It takes ~ 3 minutes before the static IP is available
+# Create static IP: https://docs.microsoft.com/en-us/azure/aks/static-ip
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: flask-service
+spec:
+    selector:
+        app: flask
+    ports:
+    -   port: 80
+    loadBalancerIP: 13.70.105.105
+    type: LoadBalancer
+        
+        

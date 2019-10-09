@@ -9,5 +9,5 @@
 import Foundation
 
 enum ButtonType {
-	case NewGame, OpenBox, KeepBox, SwapBox
+	case NewGame, OpenBox, KeepBox, SwapBox, PlayAgain, ResetSession
 }

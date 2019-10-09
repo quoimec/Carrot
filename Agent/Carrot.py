@@ -19,7 +19,10 @@ from reprint import output
 from functools import reduce
 from collections import deque
 
-class Carrot:
+class CarrotV1:
+    
+    # Model V1
+    # - Takes 0.0 -> 1.0 input from 7 facial classes, an observation time in seconds and a session count.
     
     def __init__(self):
         
@@ -341,13 +344,3 @@ environment = football.create_environment(
 agent = Agent(inputs = environment.observation_space.shape[0], outputs = environment.action_space.n, params = Parameters(), allowed = ["action_short_pass", "action_shot", "action_left", "action_top_left", "action_top", "action_top_right", "action_right", "action_bottom_right", "action_bottom", "action_bottom_left"])
 
 agent.run(environment = environment, epochs = 1000, episodes = 50, tests = 5, name = "football-dqnv2-e{}", path = "models/football-dqn-v2/")
-
-
-
-
-
-
-
-
-
-

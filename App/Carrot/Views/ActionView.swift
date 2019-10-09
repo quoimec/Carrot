@@ -30,6 +30,10 @@ class ActionButton: UIView {
 			buttonLabel.text = "New Game"
 			self.backgroundColor = #colorLiteral(red: 0.41, green: 0.85, blue: 0.53, alpha: 1.00)
 			
+			case .PlayAgain:
+			buttonLabel.text = "Play Again"
+			self.backgroundColor = #colorLiteral(red: 0.41, green: 0.85, blue: 0.53, alpha: 1.00)
+			
 			case .OpenBox:
 			buttonLabel.text = "Open Your Box"
 			self.backgroundColor = #colorLiteral(red: 0.85, green: 0.34, blue: 0.42, alpha: 1.00)
@@ -41,6 +45,10 @@ class ActionButton: UIView {
 			case .SwapBox:
 			buttonLabel.text = "Switch Boxes"
 			self.backgroundColor = #colorLiteral(red: 0.89, green: 0.76, blue: 0.36, alpha: 1.00)
+			
+			case .ResetSession:
+			buttonLabel.text = "Reset Session"
+			self.backgroundColor = #colorLiteral(red: 0.2059803299, green: 0.2059803299, blue: 0.2059803299, alpha: 1)
 			
 		}
 		

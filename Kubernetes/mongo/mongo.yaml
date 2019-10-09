@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mongo-deploy
+    labels:
+        app: mongo
+spec:
+    replicas: 1
+    selector:
+        matchLabels: 
+            app: mongo
+    template:
+        metadata:
+            labels:
+                app: mongo
+        spec:
+            containers:
+            -   name: mongo-container
+                image: remischacher/carrot-mongo
+            volumeMounts:
+            -   mountPath: /data/db
+                name: mongo-disk
+        
+        volumes:
+        -   name: mongo-disk
+            azureDisk:
+                kind: Managed
+                diskName: mongo-disk
+                diskURI: /subscriptions/4f8bdb5a-6fed-4310-824e-5a8f4eccc938/resourcegroups/MC_remi-rg-dev_remi-k8_australiaeast/providers/Microsoft.Compute/disks/postgres-disk
+        
+        
