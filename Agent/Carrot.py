@@ -23,7 +23,7 @@ class Carrot:
     
     def build(self, *, learning, weights = None):
         
-        input = kl.Input(shape = 15)
+        input = kl.Input(shape = (15,))
         connection = kl.Dense(256, activation = "relu") (input)
         connection = kl.Dense(512, activation = "linear") (connection)
         connection = kl.Dense(256, activation = "relu") (connection)
