@@ -100,7 +100,14 @@ class Carrot:
     
     def train(self, epochs = 10):
         
-        inputs, outputs = list(zip(*list(map(lambda a: tuple(self.format(a)), self.database.find({})))))
+        inputs, outputs = []
+        
+        for record in self.database.find({}):
+            input, output = self.format(record)
+            inputs.append(input)
+            outputs.append(output)
+        
+        # inputs, outputs = list(zip(*list(map(lambda a: tuple(self.format(a)), self.database.find({})))))
         
         self.model.fit(x = inputs, y = outputs, batch_size = 1, epochs = epochs, verbose = 2)
         
@@ -115,5 +122,5 @@ class Carrot:
 
 carrot = Carrot()
 
-carrot.test()
-# carrot.train()
+# carrot.test()
+carrot.train()
