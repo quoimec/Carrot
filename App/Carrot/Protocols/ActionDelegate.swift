@@ -12,6 +12,8 @@ protocol ActionDelegate: class {
 
 	func newGame()
 	
+	func playAgain()
+	
 	func openBox()
 	
 	func swapBox()
@@ -19,5 +21,7 @@ protocol ActionDelegate: class {
 	func keepBox()
 	
 	func watchVideo()
+	
+	func resetSession()
 
 }

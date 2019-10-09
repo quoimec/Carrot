@@ -12,7 +12,10 @@ REPLAY_MEMORY_SIZE = 50_000
 MIN_REPLAY_MEMORY_SIZE = 1_000
 MODEL_NAME = "256x2"
 
-class Carrot:
+class CarrotV1:
+    
+    # Model V1
+    # - Takes 0.0 -> 1.0 input from 7 facial classes, an observation time in seconds and a session count.
     
     def __init__(self):
 
@@ -25,7 +28,7 @@ class Carrot:
 
         self.model = km.Model(input = model.input, output = model)
 
-        self.model.compile(loss = "mse", optimizer = ko.Adam(lr = 0.001), metrics = ["accuracy"])
+        self.model.compile(loss = "mse", optimizer = ko.Adam(lr = 0.01), metrics = ["accuracy"])
 
         self.target = self.model
         self.target.set_weights(self.model.get_weights())

@@ -13,13 +13,21 @@ class StatsView: UIView {
 
 	var statsLabel = UILabel()
 	var statsGraph: StatsGraph
+	var statsType: StatsType
 
-	init(passedName: String) {
+	init(passedType: StatsType, passedName: String) {
+		
+		statsType = passedType
 		statsGraph = StatsGraph()
+		
 		super.init(frame: CGRect.zero)
 	
 		self.backgroundColor = #colorLiteral(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.00)
 		self.layer.cornerRadius = 16
+		self.layer.shadowRadius = 4
+		self.layer.shadowColor = UIColor.black.cgColor
+		self.layer.shadowOpacity = 0.16
+		self.layer.shadowOffset = .zero
 	
 		statsLabel.text = passedName
 		statsLabel.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
@@ -56,15 +64,38 @@ class StatsView: UIView {
 
 class StatsGraph: UIView, UIGestureRecognizerDelegate {
 	
+	var statsSeparator = UIView()
 	var verticalDisabled: Bool = false
 	var horizontalDisabled: Bool = false
 	
 	init() {
 		super.init(frame: CGRect.zero)
 		
+		statsSeparator.backgroundColor = #colorLiteral(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.00)
+		statsSeparator.layer.cornerRadius = 1
+		
+		statsSeparator.translatesAutoresizingMaskIntoConstraints = false
+		
+		self.addSubview(statsSeparator)
+		
+		self.addConstraints([
+		
+			// Stats Separator
+			NSLayoutConstraint(item: statsSeparator, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0),
+			NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: statsSeparator, attribute: .trailing, multiplier: 1.0, constant: 0),
+			NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: statsSeparator, attribute: .bottom, multiplier: 1.0, constant: 0),
+			NSLayoutConstraint(item: statsSeparator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 2)
+			
+		])
+		
+		let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(pressBars(sender:)))
+		longGesture.minimumPressDuration = 0.2
+		longGesture.delegate = self
+		
 		let panGesture = UIPanGestureRecognizer(target: self, action: #selector(hoverBars(sender:)))
 		panGesture.delegate = self
 		
+		self.addGestureRecognizer(longGesture)
 		self.addGestureRecognizer(panGesture)
 		
 	}
@@ -73,7 +104,7 @@ class StatsGraph: UIView, UIGestureRecognizerDelegate {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func updateGraph(passedData: Dictionary<String, Int>) {
+	func updateStats(passedData: Dictionary<String, Int>) {
 	
 		var previousBar: StatsBar?
 		let maximumValue = CGFloat(passedData.values.max() ?? 0)
@@ -102,7 +133,7 @@ class StatsGraph: UIView, UIGestureRecognizerDelegate {
 		
 			let eachValue = passedData[eachEmotion]!
 		
-			let eachBar = StatsBar(recordName: eachEmotion, recordValue: CGFloat(eachValue), recordMax: maximumValue)
+			let eachBar = StatsBar(barWidth: arrayWidths[eachIndex], recordName: eachEmotion, recordValue: CGFloat(eachValue), recordMax: maximumValue)
 			eachBar.translatesAutoresizingMaskIntoConstraints = false
 			self.addSubview(eachBar)
 		
@@ -124,6 +155,28 @@ class StatsGraph: UIView, UIGestureRecognizerDelegate {
 		
 			previousBar = eachBar
 		
+		}
+	
+	}
+	
+	@objc func pressBars(sender: UILongPressGestureRecognizer) {
+	
+		if sender.state == .began {
+		
+			for case let eachBar as StatsBar in self.subviews {
+			
+				if (0.0 ... eachBar.frame.width).contains(sender.location(in: eachBar).x) {
+					eachBar.hoverFocus()
+				} else {
+					eachBar.hoverBlur()
+				}
+			
+			}
+			
+		} else if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
+				
+			for case let eachBar as StatsBar in self.subviews { eachBar.hoverReset() }
+		   
 		}
 	
 	}
@@ -182,10 +235,13 @@ class StatsBar: UIView {
 	private var barValue = UILabel()
 	private var barName = UILabel()
 	
-	private let barBorder: CGFloat = 4.0
+	private let maximumWidth: CGFloat = 90.0
+	private var barBorder: CGFloat = 4.0
 
-	init(recordName: String, recordValue: CGFloat, recordMax: CGFloat) {
+	init(barWidth: CGFloat, recordName: String, recordValue: CGFloat, recordMax: CGFloat) {
 		super.init(frame: CGRect.zero)
+		
+		if barWidth > maximumWidth { barBorder = (barWidth - maximumWidth) / 2 }
 		
 		barValue.text = "\(Int(recordValue))"
 		barValue.textAlignment = .center
@@ -228,7 +284,7 @@ class StatsBar: UIView {
 			NSLayoutConstraint(item: barName, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0),
 			NSLayoutConstraint(item: barName, attribute: .top, relatedBy: .equal, toItem: barContainer, attribute: .bottom, multiplier: 1.0, constant: 12),
 			NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: barName, attribute: .trailing, multiplier: 1.0, constant: 0),
-			NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: barName, attribute: .bottom, multiplier: 1.0, constant: 6)
+			NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: barName, attribute: .bottom, multiplier: 1.0, constant: 4)
 			
 		])
 		

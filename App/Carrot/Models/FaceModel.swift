@@ -11,11 +11,14 @@ import Vision
 import AVKit
 import AVFoundation
 import CoreML
+import ARKit
 
-class Face {
+class Face: NSObject {
 	
 	var cameraAvailable = true
 	var faceDelegate: FaceDelegate?
+
+	let backgroundQueue = DispatchQueue(label: "Background", qos: .background)
 	
 	private let visionSession = AVCaptureSession()
 	let visionSequence = VNSequenceRequestHandler()
@@ -24,32 +27,35 @@ class Face {
 	private var visionFrame: CGRect?
 	private var emotionRequests = Array<VNRequest>()
 
-	func configure(super superDelegate: GameController) {
+	func configure() {
 		
-		guard let visionCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front), let visionInput = try? AVCaptureDeviceInput(device: visionCamera) else {
-			print("Running in Simulator - Camera feed is unavailable.")
-			cameraAvailable = false
-			return
-		}
 		
-		visionSession.addInput(visionInput)
-		
-		let visionOutput = AVCaptureVideoDataOutput()
-		visionOutput.setSampleBufferDelegate(superDelegate, queue: visionDispatch)
-		visionOutput.videoSettings = [
-			kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
-		]
-		
-		visionSession.addOutput(visionOutput)
-		
-		guard let visionConnection = visionOutput.connection(with: .video) else {
-			print("Running in Simulator - Video feed is unavailable.")
-			cameraAvailable = false
-			return
-		}
-		
-		visionConnection.videoOrientation = .portrait
-		cameraAvailable = true
+////		augmentSession.delegate = self
+////		augmentSession.run(augmentConfig, options: [.resetTracking, .removeExistingAnchors])
+//
+//		guard let visionCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front), let visionInput = try? AVCaptureDeviceInput(device: visionCamera) else {
+//			print("Running in Simulator - Camera feed is unavailable.")
+//			cameraAvailable = false
+//			return
+//		}
+//
+//		visionSession.addInput(visionInput)
+//
+//		let visionOutput = AVCaptureVideoDataOutput()
+//		visionOutput.setSampleBufferDelegate(self, queue: visionDispatch)
+//		visionOutput.videoSettings = [
+//			kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+//		]
+//
+//		visionSession.addOutput(visionOutput)
+//
+//		guard let visionConnection = visionOutput.connection(with: .video) else {
+//			print("Running in Simulator - Video feed is unavailable.")
+//			cameraAvailable = false
+//			return
+//		}
+//
+//		visionConnection.videoOrientation = .portrait
 
 		guard let emotionModel = try? VNCoreMLModel(for: Emotions().model) else {
 			fatalError("Unable to locate required Emotions CoreML model")
@@ -65,6 +71,7 @@ class Face {
 	func start() {
 		
 		if !cameraAvailable { return }
+		print("Started Vision Capture")
 		visionSession.startRunning()
 		
 	}
@@ -72,36 +79,46 @@ class Face {
 	func stop() {
 		
 		if !cameraAvailable { return }
+		print("Stopped Vision Capture")
 		visionSession.stopRunning()
 		
 	}
 	
-	func detectedFace(from rawBuffer: CVImageBuffer, visionRequest: VNRequest, visionError: Error?) {
+	private func detectedFace(rawBuffer: CVImageBuffer, visionRequest: VNRequest, visionError: Error?) {
 	
-		if visionFrame == nil { visionFrame = CVImageBufferGetCleanRect(rawBuffer) }
+//		let coreImage =
+		
 	
-		guard let faceResults = visionRequest.results as? Array<VNFaceObservation>, let bufferFrame = visionFrame else { return }
-	
-		guard let firstFace = faceResults.first else { return }
+//		if visionFrame == nil { visionFrame = CVImageBufferGetCleanRect(rawBuffer) }
+//
+////		print("Width: \(visionFrame?.width), Height: \(visionFrame?.height)")
+//
+//		guard let faceResults = visionRequest.results as? Array<VNFaceObservation>, let bufferFrame = visionFrame else { return }
+//
+//		guard let firstFace = faceResults.first else { return }
+//
+//		guard let coreImage = CIContext().createCGImage(rawImage, from: CGRect(x: 0, y: 0, width: 1080, height: 1440)) else { return }
 		
-		guard let coreImage = CIContext().createCGImage(CIImage(cvImageBuffer: rawBuffer), from: bufferFrame), let croppedImage = coreImage.cropping(to: VNImageRectForNormalizedRect(firstFace.boundingBox, Int(bufferFrame.width), Int(bufferFrame.height))) else { return }
-		
-		let emotionRequest = VNImageRequestHandler(cgImage: croppedImage, options: [:])
-		
-		do {
-            try emotionRequest.perform(emotionRequests)
-        } catch {
-            print(error)
-        }
+//		, let croppedImage = coreImage.cropping(to: VNImageRectForNormalizedRect(firstFace.boundingBox, Int(bufferFrame.width), Int(bufferFrame.height))) else { return }
+
+//		VNImageRec
+
+//		let emotionRequest = VNImageRequestHandler(cgImage: croppedImage, options: [:])
+//
+//		do {
+//            try emotionRequest.perform(emotionRequests)
+//        } catch {
+//            print(error)
+//        }
         
-		DispatchQueue.main.async { [weak self] in
-			guard let safe = self else { return }
-			safe.faceDelegate?.faceUpdate(passedImage: UIImage(cgImage: croppedImage, scale: 1.0, orientation: .upMirrored))
-		}
+//		DispatchQueue.main.async { [weak self] in
+//			guard let safe = self else { return }
+//			safe.faceDelegate?.faceUpdate(passedImage: UIImage(cgImage: coreImage))
+//		}
 		
 	}
 	
-	func classifyFace(request: VNRequest, error: Error?) {
+	private func classifyFace(request: VNRequest, error: Error?) {
 		
 		guard let emotionResults = request.results as? Array<VNClassificationObservation> else { return }
 		
@@ -111,5 +128,71 @@ class Face {
 		}
 		
 	}
+
+	func captureBuffer(passedBuffer: CVPixelBuffer) {
+	
+		let faceRequest = VNDetectFaceRectanglesRequest(completionHandler: { [weak self] visionRequest, visionError in
+			guard let safe = self else { return }
+			safe.detectedFace(rawBuffer: passedBuffer, visionRequest: visionRequest, visionError: visionError)
+		})
+
+		do {
+			try visionSequence.perform([faceRequest], on: passedBuffer, orientation: .right)
+		} catch {
+			print(error.localizedDescription)
+		}
+
+	}
+
+}
+
+extension Face: AVCaptureVideoDataOutputSampleBufferDelegate {
+
+	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+	
+		guard let imageSample = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+	
+		let faceRequest = VNDetectFaceRectanglesRequest(completionHandler: { [weak self] visionRequest, visionError in
+			guard let safe = self else { return }
+			return
+//			safe.detectedFace(from: imageSample, visionRequest: visionRequest, visionError: visionError)
+		})
+		
+		do {
+			try visionSequence.perform([faceRequest], on: imageSample, orientation: .downMirrored)
+		} catch {
+			print(error.localizedDescription)
+		}
+	
+	}
+	
+}
+
+
+extension Face: ARSessionDelegate {
+
+//	func session(_ session: ARSession, didUpdate frame: ARFrame) {
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//	}
 
 }

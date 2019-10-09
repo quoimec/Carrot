@@ -17,11 +17,13 @@
 		CB228C21230FCFAD00311EFD /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB228C20230FCFAD00311EFD /* StatsView.swift */; };
 		CB4170BA230E7D7A00606A03 /* CarrotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4170B9230E7D7900606A03 /* CarrotModel.swift */; };
 		CB4170BC230F47B800606A03 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4170BB230F47B800606A03 /* GameView.swift */; };
-		CB5A9479230D318D00AD2B24 /* Emotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CB5A9478230D318D00AD2B24 /* Emotions.mlmodel */; };
 		CB91C49A2310D2B900637E76 /* Carrot.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CB91C4992310D2B900637E76 /* Carrot.mp4 */; };
 		CB91C49C2310D4CA00637E76 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB91C49B2310D4CA00637E76 /* RulesView.swift */; };
+		CBACA53323167FC4003AADF5 /* Emotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CBACA53223167FC3003AADF5 /* Emotions.mlmodel */; };
 		CBD0669D23120BC100C2159B /* FaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0669C23120BC100C2159B /* FaceModel.swift */; };
 		CBD0669F23120DC100C2159B /* FaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD0669E23120DC100C2159B /* FaceDelegate.swift */; };
+		CBD5E16323124F2500F521BB /* OverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD5E16223124F2500F521BB /* OverView.swift */; };
+		CBD5E16523126B3800F521BB /* StatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD5E16423126B3800F521BB /* StatsModel.swift */; };
 		CBE8C77423092AAD004F51D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE8C77323092AAD004F51D4 /* AppDelegate.swift */; };
 		CBE8C77623092AAD004F51D4 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE8C77523092AAD004F51D4 /* GameController.swift */; };
 		CBE8C77B23092AAF004F51D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBE8C77A23092AAF004F51D4 /* Assets.xcassets */; };
@@ -39,11 +41,13 @@
 		CB228C20230FCFAD00311EFD /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		CB4170B9230E7D7900606A03 /* CarrotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrotModel.swift; sourceTree = "<group>"; };
 		CB4170BB230F47B800606A03 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
-		CB5A9478230D318D00AD2B24 /* Emotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Emotions.mlmodel; sourceTree = "<group>"; };
 		CB91C4992310D2B900637E76 /* Carrot.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carrot.mp4; sourceTree = "<group>"; };
 		CB91C49B2310D4CA00637E76 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
+		CBACA53223167FC3003AADF5 /* Emotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Emotions.mlmodel; sourceTree = "<group>"; };
 		CBD0669C23120BC100C2159B /* FaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceModel.swift; sourceTree = "<group>"; };
 		CBD0669E23120DC100C2159B /* FaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDelegate.swift; sourceTree = "<group>"; };
+		CBD5E16223124F2500F521BB /* OverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverView.swift; sourceTree = "<group>"; };
+		CBD5E16423126B3800F521BB /* StatsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsModel.swift; sourceTree = "<group>"; };
 		CBE8C77023092AAD004F51D4 /* Carrot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carrot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE8C77323092AAD004F51D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBE8C77523092AAD004F51D4 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
@@ -70,6 +74,7 @@
 				CB043094230F657100C81DAD /* CameraView.swift */,
 				CB4170BB230F47B800606A03 /* GameView.swift */,
 				CB0F94B5230F708900413B37 /* OverlayView.swift */,
+				CBD5E16223124F2500F521BB /* OverView.swift */,
 				CB91C49B2310D4CA00637E76 /* RulesView.swift */,
 				CB228C20230FCFAD00311EFD /* StatsView.swift */,
 			);
@@ -83,6 +88,7 @@
 				CB4170B9230E7D7900606A03 /* CarrotModel.swift */,
 				CBD0669C23120BC100C2159B /* FaceModel.swift */,
 				CB0F94BF230F841A00413B37 /* PhoneModel.swift */,
+				CBD5E16423126B3800F521BB /* StatsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -109,7 +115,7 @@
 			children = (
 				CBE8C77A23092AAF004F51D4 /* Assets.xcassets */,
 				CB91C4992310D2B900637E76 /* Carrot.mp4 */,
-				CB5A9478230D318D00AD2B24 /* Emotions.mlmodel */,
+				CBACA53223167FC3003AADF5 /* Emotions.mlmodel */,
 				CBE8C77C23092AAF004F51D4 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
@@ -225,11 +231,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB5A9479230D318D00AD2B24 /* Emotions.mlmodel in Sources */,
+				CBD5E16323124F2500F521BB /* OverView.swift in Sources */,
 				CB0F94B6230F708900413B37 /* OverlayView.swift in Sources */,
 				CBD0669F23120DC100C2159B /* FaceDelegate.swift in Sources */,
 				CB043095230F657100C81DAD /* CameraView.swift in Sources */,
+				CBD5E16523126B3800F521BB /* StatsModel.swift in Sources */,
 				CB228C21230FCFAD00311EFD /* StatsView.swift in Sources */,
+				CBACA53323167FC4003AADF5 /* Emotions.mlmodel in Sources */,
 				CB0F94B8230F70E500413B37 /* ActionView.swift in Sources */,
 				CB0F94C5230F976600413B37 /* ActionDelegate.swift in Sources */,
 				CB0F94C0230F841A00413B37 /* PhoneModel.swift in Sources */,
@@ -379,7 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JW5G6WB9V7;
+				DEVELOPMENT_TEAM = 636W7UW3M3;
 				INFOPLIST_FILE = Carrot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -398,7 +406,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JW5G6WB9V7;
+				DEVELOPMENT_TEAM = 636W7UW3M3;
 				INFOPLIST_FILE = Carrot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

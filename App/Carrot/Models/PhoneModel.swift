@@ -104,7 +104,7 @@ public class Phone {
 				case "iPhone10,3", "iPhone10,6":
 				return .iPhoneX
 				
-				case "iPhone11,2":
+				case "iPhone11,2", "iPhone12,3":
 				return .iPhoneXs
 				
 				case "iPhone11,4", "iPhone11,6":
