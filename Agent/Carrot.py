@@ -55,7 +55,9 @@ class EmojiAgent:
     
     def format(self, object):
         
-        """ Emoji Agent Input
+        """ Data Formatter
+        
+            Emoji Agent Input: Vector[15]
             ->  Session Count: Float, Representing the number of games the player has played
             ->  Win Ratio: Float, Representing the proportion of the time that the Agent has won
             ->  Player One: Float, 0.0 for Human, 1.0 for Agent
@@ -68,11 +70,18 @@ class EmojiAgent:
             ->  Sad Count: Float, Normalised emotions, between 0.0 and 1.0
             ->  Game Seconds: Float, The number of seconds that the game was played for before the agent needed to make a decision
             ->  Player Decision: Int, -1 for Swap, 1 for Keep and 0 if the the agent is player one
-     
+            ->  Emoji One: Int, Encoded value between 0 and 6
+            ->  Emoji Two: Int, Encoded value between 0 and 6
+            ->  Emoji Three: Int, Encoded value between 0 and 6
+            
+            Emoji Agent Actual: Vector[2]
+            -> Agent Swap: Int, 1 if True, 0 if False
+            -> Agent Keep: Int, 1 if True, 0 if False
+            
         """
         
+        emojiIndex = lambda a: ["😡", "🤢", "😨", "😀", "😒", "😮", "😐"].index(a)
         emotionKeys = ["happyCount", "neutralCount", "disgustCount", "fearCount", "angerCount", "surprisedCount", "sadCount"]
-        emojiIndex = lambda a: [""]
         normalisedEmotions = normalise(dict(filter(lambda a: a[0] in emotionKeys, object.items())))
         
         input = [
@@ -88,15 +97,23 @@ class EmojiAgent:
             normalisedEmotions["sadCount"],
             normalisedEmotions["gameSeconds"],
             0 if object["playerOne"] == "Agent" else (-1 if object["playerDecision"] == "Swap" else 1),
-            
+            emojiIndex(object["emojiOne"]),
+            emojiIndex(object["emojiTwo"]),
+            emojiIndex(object["emojiThree"]),
         
         ]
         
-        []
-    
+        object["playerOne"] == "Player"
+        object["carrotStart"] == "Player"
+        
+        
+        output = [
+            
+        ]
+        
     
         
-{ 'carrotWinner': 'Human',  'playerDecision': 'Swap', 'carrotStart': 'Agent', 'emojiOne': '🤢', 'emojiTwo': '😐', 'agentDecision': 'Keep', 'emojiThree': '😨'}
+{ 'carrotWinner': 'Human',  'playerDecision': 'Swap', 'carrotStart': 'Agent', 'agentDecision': 'Keep'}
 
 
 
